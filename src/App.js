@@ -33,9 +33,8 @@ function formatDay(dateStr) {
 }
 
 class App extends React.Component {
-
 	state = {
-		location: "Lisbon",
+		location: "",
 		isLoading: false,
 		displayLocation: "",
 		weather: {},
@@ -71,23 +70,21 @@ class App extends React.Component {
 		} finally {
 			this.setState({ isLoading: false });
 		}
-	}
+	};
+
+	setLocation = (e) => {
+		this.setState({ location: e.target.value });
+	};
 
 	render() {
 		return (
 			<div className='app'>
 				<h1>Classy Weather</h1>
 
-				<div>
-					<input
-						type='text'
-						placeholder='Search from location...'
-						value={this.state.location}
-						onChange={(e) =>
-							this.setState({ location: e.target.value })
-						}
-					/>
-				</div>
+				<Input
+					location={this.state.location}
+					onChangeLocation={this.setLocation}
+				/>
 
 				<button onClick={this.fetchWeather} className='btn'>
 					Get Weather
@@ -107,6 +104,21 @@ class App extends React.Component {
 }
 
 export default App;
+
+class Input extends React.Component {
+	render() {
+		return (
+			<div>
+				<input
+					type='text'
+					placeholder='Search from location...'
+					value={this.props.location}
+					onChange={this.props.onChangeLocation}
+				/>
+			</div>
+		);
+	}
+}
 
 class Weather extends React.Component {
 	render() {
@@ -129,7 +141,7 @@ class Weather extends React.Component {
 							min={min.at(i)}
 							code={codes.at(i)}
 							key={date}
-							isToday={i===0}
+							isToday={i === 0}
 						/>
 					))}
 				</ul>
