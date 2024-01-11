@@ -1,44 +1,31 @@
 import React from "react";
 
-class Counter extends React.Component {
+class App extends React.Component {
+    constructor(props) {
+        super(props);
 
-  constructor(props) {
-    super(props);
+        this.state = {
+            location: "Lisbon"
+        };
 
-    // One huge state object, not the multiple state variables like we do with the use state hook
-    this.state = { count: 5 };
+        this.fetchWeather = this.fetchWeather.bind(this);
+    }
 
-    // Inside the JSX, the handlers function loses the value of this keyword that's why we have to bind this keyword to the handlers function like this
-    this.handleDecrement = this.handleDecrement.bind(this);
-    this.handleIncrement = this.handleIncrement.bind(this);
+    fetchWeather() {
+        console.log("Loading Data");
+    }
 
-  }
+    render() {
+        return <div className="app">
+            <h1>Classy Weather</h1>
 
-  handleDecrement() {
-    this.setState((currState) => {
-      return {count: currState.count - 1};
-    });
-  }
+            <div>
+                <input type="text" placeholder="Search from location..." value={this.state.location} onChange={e => this.setState({ location: e.target.value })} />
+            </div>
 
-  handleIncrement() {
-    this.setState((currState) => {
-      return {count: currState.count + 1};
-    });
-  }
-
-  render() {
-    const date = new Date('june 21 2022');
-
-    date.setDate(date.getDate() + this.state.count);
-
-    return <div>
-      <button onClick={this.handleDecrement}>-</button>
-
-      <span>{date.toDateString()} [{this.state.count}]</span>
-
-      <button onClick={this.handleIncrement}>+</button>
-    </div>
-  }
+            <button onClick={ this.fetchWeather } >Get Weather</button>
+        </div>
+    }
 }
 
-export default Counter;
+export default App;
